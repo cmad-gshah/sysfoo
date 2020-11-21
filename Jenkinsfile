@@ -26,6 +26,7 @@ pipeline {
     }
 
     stage('Package') {
+      when { branch 'master' }
       agent {
         docker {
           image 'maven:3.6.3-jdk-11-slim'
@@ -40,6 +41,7 @@ pipeline {
 
     stage('Docker BnP') {
       agent any
+      when { branch 'master' }
       steps {
         script {
           docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
@@ -58,6 +60,7 @@ pipeline {
     }
 
     stage('Deploy to Dev') {
+      when { branch 'master' }
       agent any
       steps {
         sh 'docker-compose up -d '
